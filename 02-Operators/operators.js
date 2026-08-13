@@ -250,3 +250,154 @@ console.log(loggedIn || "Login Page");
 
 //Falsy: false,0 ,"" ,null ,undefined,NaN
 //Truthy: "Hello","0",[],{},any non-zero number
+
+// ============================================================
+// Topic: Ternary Operator (? :)
+// Purpose: Used as a short form of if...else for simple conditions.
+// Syntax: condition ? valueIfTrue : valueIfFalse
+// Changes Original Value? No
+// Returns: One of the two values based on the condition.
+// Example 1
+let ageX = 24;
+let eligibility = ageX >= 18 ? "Eligible" : "Not Eligible";
+console.log(eligibility);
+// Example 2
+let scoreZ = 42;
+let resultX = scoreZ >= 50 ? "Pass" : "Fail";
+console.log(resultX);
+// Example 3
+let browserX = "Edge";
+let browserStatus = browserX === "Edge" ? "Supported" : "Unsupported";
+console.log(browserStatus);
+// Example 4
+let isLoggedInn = false;
+let page = isLoggedInn ? "Dashboard" : "Login Page";
+console.log(page);
+
+// ============================================================
+// Topic: Ternary with Logical Operators
+// Purpose: Combines ternary operators with && and || for simple decisions.
+// Changes Original Value? No
+// Returns: One of the two values based on the complete condition.
+// Example 1 - Ternary with &&
+let ageY = 28;
+let hasTicket = true;
+let entry = ageY >= 18 && hasTicket
+    ? "Entry Confirmed"
+    : "Entry Denied";
+console.log(entry);
+// Example 2 - Ternary with &&
+let scoreY = 76;
+let attendance = 85;
+let examStatus = scoreY >= 50 && attendance >= 75
+    ? "Exam Passed"
+    : "Exam Failed";
+console.log(examStatus);
+// Example 3 - Ternary with ||
+let payment = "Cash";
+let paymentStatus = payment === "UPI" || payment === "Cash"
+    ? "Payment Accepted"
+    : "Payment Rejected";
+console.log(paymentStatus);
+// Example 4 - Ternary with ||
+let device = "Mobile";
+let deviceStatus = device === "Desktop" || device === "Tablet"
+    ? "Large Screen"
+    : "Small Screen";
+console.log(deviceStatus);
+// Example 5 - Ternary with a Truthy Value
+let projectName = "Playwright";
+let projectStatus = projectName
+    ? "Project Selected"
+    : "No Project";
+console.log(projectStatus);
+// Example 6 - Ternary with a Falsy Value
+let testResult = "";
+let resultMessage = testResult
+    ? "Result Available"
+    : "Result Missing";
+console.log(resultMessage);
+// Example 7 - QA Example
+let apiResponse = 201;
+let responseBody = true;
+let apiResult = apiResponse === 201 && responseBody
+    ? "Created Successfully"
+    : "Creation Failed";
+console.log(apiResult);
+// Example 8 - QA Example
+let bugs = 3;
+let developerFixed = false;
+let releaseStatus = bugs === 0 || developerFixed
+    ? "Ready for Release"
+    : "Needs Fixing";
+console.log(releaseStatus);
+
+// ============================================================
+// Topic: Mixed Ternary and Logical Operator Examples
+// Purpose: Combines ternary, logical operators, and truthy/falsy values.
+// Changes Original Value? No
+// Returns: A value based on the evaluated conditions.
+// Example 1
+let name = "Ananya";
+let loggedInY = true;
+let welcomeMessage = name && loggedInY
+    ? "Welcome to Dashboard"
+    : "Please Login";
+console.log(welcomeMessage);
+// Example 2
+let usernameis = "";
+let displayName1 = usernameis || "Guest";
+console.log(displayName1);
+// Example 3
+let isActive = true;
+let isBlocked = true;
+let accountStatus = isActive && !isBlocked
+    ? "Account Active"
+    : "Account Restricted";
+console.log(accountStatus);
+// Example 4
+let browserName = "Opera";
+let browserMessage = browserName === "Chrome" || browserName === "Firefox"
+    ? "Browser Supported"
+    : "Browser Not Supported";
+console.log(browserMessage);
+// Example 5
+let testCount = 12;
+let testStatus = testCount > 0
+    ? "Tests Found"
+    : "No Tests Found";
+console.log(testStatus);
+// Example 6
+let apiResponseX = null;
+let responseMessage1 = apiResponseX || "No Response";
+console.log(responseMessage1);
+// Example 7
+let isAuthenticated = true;
+let hasRole = false;
+let accessMessage = isAuthenticated && hasRole
+    ? "Access Granted"
+    : "Access Denied";
+console.log(accessMessage);
+// Example 8
+let defects = 0;
+let retestCompleted = true;
+let buildStatus = defects === 0 && retestCompleted
+    ? "Build Approved"
+    : "Build Rejected";
+console.log(buildStatus);
+// Example 9 - Nested Ternary
+let experienceX = 5;
+let experienceLevel = experienceX >= 5
+    ? "Senior"
+    : experienceX >= 2
+        ? "Mid-Level"
+        : "Junior";
+console.log(experienceLevel);
+// Example 10 - Nested Ternary with QA Scenario
+let testScore = 88;
+let performance = testScore >= 90
+    ? "Excellent"
+    : testScore >= 70
+        ? "Good"
+        : "Needs Improvement";
+console.log(performance);
