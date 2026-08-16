@@ -548,3 +548,534 @@ inspectAPIResponse(responseData, function (apiResult) {
     console.log(apiResult.status);
     console.log(apiResult.message);
 });
+
+// ============================================================
+// Topic: Promises
+// Purpose: Represents the eventual result of an asynchronous operation.
+// States: Pending, Fulfilled, Rejected
+// Keywords: resolve(), reject()
+// Changes Original Value? Depends on the operation.
+// Returns: A Promise object.
+// Promise States:
+// Pending   → Operation is still in progress.
+// Fulfilled → Operation completed successfully.
+// Rejected  → Operation failed.
+// Flow:
+// Pending
+//    ↓
+// ┌──────────────┐
+// ↓              ↓
+// Fulfilled    Rejected
+//    ↓              ↓
+// .then()        .catch()
+// Topic: Creating a Promise
+// Purpose: Creates a Promise that can complete successfully
+// or fail depending on a condition.
+// Syntax: new Promise(function(resolve, reject) { });
+// Changes Original Value? No
+// Returns: A Promise object. // Example 1
+let registrationPromise = new Promise(function (resolve, reject) {
+    let registrationSuccessful = true;
+
+    if (registrationSuccessful) {
+        resolve("Registration Completed");
+    } else {
+        reject("Registration Failed");
+    }
+
+});
+console.log(registrationPromise);
+
+// Example 2
+let fileUploadPromise = new Promise(function (resolve, reject) {
+
+    let uploadSuccessful = false;
+
+    if (uploadSuccessful) {
+        resolve("File Uploaded");
+    } else {
+        reject("File Upload Failed");
+    }
+});
+fileUploadPromise
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+
+// Topic: resolve()
+// Purpose: Marks a Promise as successfully completed.
+// Syntax: resolve(value);
+// Returns: A fulfilled Promise.
+// Example
+let reportPromise = new Promise(function (resolve, reject) {
+    resolve("Report Generated");
+});
+reportPromise.then(function (result) {
+    console.log(result);
+});
+
+// Topic: reject()
+// Purpose: Marks a Promise as failed.
+// Syntax: reject(error);
+// Returns: A rejected Promise. // Example
+let connectionPromise = new Promise(function (resolve, reject) {
+    reject("Connection Failed");
+
+});
+connectionPromise.catch(function (error) {
+    console.log(error);
+});
+
+// Topic: .then()
+// Purpose: Handles a successfully fulfilled Promise.
+// Syntax: promise.then(callback);
+// Changes Original Value? No
+// Returns: A new Promise.//example :
+let deploymentPromise = Promise.resolve("Deployment Successful");
+deploymentPromise.then(function (result) {
+    console.log(result);
+});
+
+// Topic: .catch()
+// Purpose: Handles a rejected Promise.
+// Syntax: promise.catch(callback);
+// Changes Original Value? No
+// Returns: A new Promise.
+// Example
+let serverPromise = Promise.reject("Server Not Available");
+serverPromise.catch(function (error) {
+    console.log(error);
+});
+
+// Topic: .finally()
+// Purpose: Executes after a Promise completes,
+// regardless of success or failure.
+// Syntax: promise.finally(callback);
+// Changes Original Value? No
+// Returns: A new Promise.
+// Example
+let logoutPromise = Promise.resolve("Logout Successful");
+logoutPromise
+    .then(function (result) {
+        console.log(result);
+    })
+    .finally(function () {
+        console.log("Logout Process Finished");
+    });
+
+// Topic: Promise Chaining
+// Purpose: Connects multiple .then() methods so that the
+// result from one step can be passed to the next step.
+// Changes Original Value? No
+// Returns: A new Promise after each .then().
+// Example 1
+let orderFlow = Promise.resolve("Order Created");
+orderFlow
+    .then(function (result) {
+        console.log(result);
+        return "Payment Completed";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Order Confirmed";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Example 2
+let reportFlow = Promise.resolve("Report Requested");
+reportFlow
+    .then(function (result) {
+        console.log(result);
+        return "Report Generated";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Report Downloaded";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Topic: Returning a Value in Promise Chaining
+// Purpose: A value returned from one .then() becomes the
+// input for the next .then().
+// Example
+let verificationFlow = Promise.resolve("Verification Started");
+verificationFlow
+    .then(function (result) {
+        console.log(result);
+        return "Email Verified";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Mobile Verified";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Important:
+// return "Email Verified"
+//          ↓
+// next .then() receives:
+// "Email Verified"
+// Topic: Promise Chaining Without return
+// Purpose: Understand what happens when a .then() does not
+// return a value.
+// Example
+let notificationFlow = Promise.resolve("Notification Started");
+notificationFlow
+    .then(function (result) {
+        console.log(result);
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Important:
+// If a .then() does not return anything,
+// the next .then() receives undefined.
+// Topic: Error Handling in Promise Chaining
+// Purpose: .catch() handles errors occurring anywhere
+// in a Promise chain. // Example
+let backupFlow = Promise.resolve("Backup Started");
+backupFlow
+    .then(function (result) {
+        console.log(result);
+        return "Files Selected";
+    })
+    .then(function (result) {
+        console.log(result);
+        throw new Error("Backup Failed");
+    })
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log("Error: " + error.message);
+    });
+
+// Important:
+// Once an error occurs, remaining .then() blocks are skipped
+// and control moves to .catch().
+
+// Topic: .catch() and .finally() Together
+// Purpose: Handle failure and perform cleanup after
+// the Promise finishes.
+// Example
+let downloadFlow = Promise.reject("Download Failed");
+downloadFlow
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log("Error: " + error);
+    })
+    .finally(function () {
+        console.log("Download Process Finished");
+    });
+
+// Important:
+// .catch()   → Runs when there is an error.
+// .finally() → Runs whether there is an error or not.
+// ============================================================
+// Topic: Promise Chaining in QA Automation
+// Purpose: Represents sequential steps in a testing workflow.
+// Example
+let testWorkflow = Promise.resolve("Test Data Prepared");
+testWorkflow
+    .then(function (result) {
+        console.log(result);
+        return "Application Launched";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Test Executed";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Result Verified";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Practice / Solved Problems - Promise Round 1 // Problem 1
+let promisePractice1 = new Promise(function (resolve, reject) {
+    resolve("Test Passed");
+});
+promisePractice1.then(function (result) {
+    console.log(result);
+});
+
+// Problem 2
+let promisePractice2 = new Promise(function (resolve, reject) {
+    reject("Server Error");
+});
+promisePractice2.catch(function (error) {
+    console.log(error);
+});
+
+// Problem 3
+let promisePractice3 = new Promise(function (resolve, reject) {
+    resolve("Login Successful");
+
+});
+promisePractice3
+    .then(function (result) {
+        console.log(result);
+    })
+    .finally(function () {
+        console.log("Login Process Finished");
+    });
+
+// Problem 4
+let promisePractice4 = new Promise(function (resolve, reject) {
+    reject("Payment Failed");
+});
+promisePractice4
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+    .finally(function () {
+        console.log("Payment Process Finished");
+    });
+
+// Problem 5
+let promisePractice5 = new Promise(function (resolve, reject) {
+
+    let selectedBrowserName = "Chrome";
+
+    if (selectedBrowserName === "Chrome") {
+        resolve("Browser Supported");
+    } else {
+        reject("Browser Not Supported");
+    }
+
+});
+promisePractice5
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+
+// ============================================================
+// Practice / Solved Problems - Promise Chaining Round 2 // Problem 1
+let buildPracticeFlow = Promise.resolve("Build Started");
+buildPracticeFlow
+    .then(function (result) {
+        console.log(result);
+        return "Build Completed";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Problem 2
+let apiPracticeFlow = Promise.resolve("Request Sent");
+apiPracticeFlow
+    .then(function (result) {
+        console.log(result);
+        return "Response Received";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Response Validated";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Problem 3
+let testPracticeFlow = Promise.resolve("Test Started");
+testPracticeFlow
+    .then(function (result) {
+        console.log(result);
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Problem 4
+let deploymentPracticeFlow = Promise.resolve("Deployment Started");
+deploymentPracticeFlow
+    .then(function (result) {
+        console.log(result);
+        return "Deployment Successful";
+    })
+    .then(function (result) {
+        console.log(result);
+        throw new Error("Server Unavailable");
+    })
+    .then(function (result) {
+        console.log("Final: " + result);
+    })
+    .catch(function (error) {
+        console.log("Error: " + error.message);
+    });
+
+// Problem 5
+let loginPracticeFlow = Promise.resolve("Login Started");
+loginPracticeFlow
+    .then(function (result) {
+        console.log(result);
+        return "Username Verified";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Password Verified";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Dashboard Opened";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Practice / Solved Problems - Promise Chaining Round 3
+// Problem 1
+let environmentPracticeFlow = Promise.resolve("Environment Selected");
+environmentPracticeFlow
+    .then(function (result) {
+        console.log(result);
+        return "Test Data Loaded";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Test Execution Started";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Problem 2
+let databasePracticeFlow = Promise.resolve("Database Connected");
+databasePracticeFlow
+    .then(function (result) {
+        console.log(result);
+        return "Query Executed";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Data Retrieved";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Database Validation Passed";
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Problem 3
+let regressionPracticeFlow = Promise.resolve("Regression Test Started");
+regressionPracticeFlow
+    .then(function (result) {
+        console.log(result);
+        return "Login Test Passed";
+    })
+    .then(function (result) {
+        console.log(result);
+        throw new Error("Payment Test Failed");
+    })
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log("Test Error: " + error.message);
+    })
+    .finally(function () {
+        console.log("Regression Test Finished");
+    });
+
+// Problem 4
+let apiValidationPractice = Promise.resolve("API Request Sent");
+apiValidationPractice
+    .then(function (result) {
+        console.log(result);
+        return "Status Code: 200";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Response Body Received";
+    })
+    .then(function (result) {
+        console.log(result);
+        throw new Error("Invalid Response Data");
+    })
+    .catch(function (error) {
+        console.log("Validation Error: " + error.message);
+    });
+
+// Problem 5
+let automationPracticeFlow = Promise.resolve("Browser Launched");
+automationPracticeFlow
+    .then(function (result) {
+        console.log(result);
+        return "Application Opened";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "User Logged In";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Test Case Executed";
+    })
+    .then(function (result) {
+        console.log(result);
+        return "Test Passed";
+    })
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log("Automation Error: " + error.message);
+    })
+    .finally(function () {
+        console.log("Automation Completed");
+    });
+
+
+// ============================================================
+// Promise Summary
+// Promise
+//    ↓
+// Represents an asynchronous operation
+// States:
+// Pending → Fulfilled / Rejected
+// resolve()
+//    ↓
+// .then()
+//
+// reject()
+//    ↓
+// .catch()
+//
+// Success or Failure
+//    ↓
+// .finally()
+//
+// Promise Chaining:
+// .then()
+//    ↓
+// return value
+//    ↓
+// next .then()
+// Important:
+// If a .then() does not return a value,
+// the next .then() receives undefined.
+// If an error occurs in the chain:
+// .catch() handles the error.
+// .finally() runs regardless of success or failure.
