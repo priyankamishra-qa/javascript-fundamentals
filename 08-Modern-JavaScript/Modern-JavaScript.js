@@ -1079,3 +1079,251 @@ automationPracticeFlow
 // If an error occurs in the chain:
 // .catch() handles the error.
 // .finally() runs regardless of success or failure.
+
+// ============================================================
+// Topic: Promise Chaining with Asynchronous Operations
+// Purpose: Execute multiple asynchronous operations in sequence.
+// Key Point: Returning a Promise inside .then() makes the next
+// .then() wait until that Promise is completed.
+// Example 1
+Promise.resolve("Order Placed")
+    .then(function (result) {
+        console.log(result);
+
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                resolve("Payment Successful");
+            }, 1000);
+        });
+    })
+    .then(function (result) {
+        console.log(result);
+
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                resolve("Order Shipped");
+            }, 1000);
+        });
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Example 2 - QA Example
+Promise.resolve("Test Started")
+    .then(function (result) {
+        console.log(result);
+
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                resolve("Login Test Passed");
+            }, 1000);
+        });
+    })
+    .then(function (result) {
+        console.log(result);
+
+        return new Promise(function (resolve) {
+            setTimeout(function () {
+                resolve("Dashboard Test Passed");
+            }, 1000);
+        });
+    })
+    .then(function (result) {
+        console.log(result);
+    });
+
+// ============================================================
+// Topic: Promise.all()
+// Purpose: Run multiple Promises together and wait for ALL
+// Promises to fulfill.
+// Key Point: If one Promise rejects, Promise.all() rejects.
+// Returns: An array of results in the same order as the input.
+// Example 1
+let userData = Promise.resolve("User Data Loaded");
+let settings = Promise.resolve("Settings Loaded");
+let notifications = Promise.resolve("Notifications Loaded");
+Promise.all([
+    userData,
+    settings,
+    notifications
+])
+    .then(function (results) {
+        console.log(results);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+
+// Example 2 - QA Example
+let loginTest = Promise.resolve("Login Passed");
+let paymentTest = Promise.resolve("Payment Passed");
+let profileTest = Promise.resolve("Profile Passed");
+Promise.all([
+    loginTest,
+    paymentTest,
+    profileTest
+])
+    .then(function (results) {
+        console.log("All Tests Passed");
+        console.log(results);
+    })
+    .catch(function (error) {
+        console.log("Test Suite Failed: " + error);
+    });
+
+// ============================================================
+// Topic: Promise.allSettled()
+// Purpose: Wait for ALL Promises to finish, whether fulfilled
+// or rejected.
+// Key Point: One failure does not stop the other results.
+// Returns: status + value/reason for every Promise.
+// Example 1
+let serverOne = Promise.resolve("Server One Connected");
+let serverTwo = Promise.reject("Server Two Failed");
+let serverThree = Promise.resolve("Server Three Connected");
+Promise.allSettled([
+    serverOne,
+    serverTwo,
+    serverThree
+])
+    .then(function (results) {
+        console.log(results);
+    });
+
+// Example 2 - QA Example
+let loginCheck = Promise.resolve("Login Passed");
+let searchCheck = Promise.reject("Search Failed");
+let paymentCheck = Promise.resolve("Payment Passed");
+Promise.allSettled([
+    loginCheck,
+    searchCheck,
+    paymentCheck
+])
+    .then(function (results) {
+
+        results.forEach(function (result) {
+
+            if (result.status === "fulfilled") {
+                console.log("PASS: " + result.value);
+            } else {
+                console.log("FAIL: " + result.reason);
+            }
+
+        });
+
+    });
+
+// ============================================================
+// Topic: Promise.race()
+// Purpose: Returns the result of the FIRST Promise to settle.
+// Key Point: First fulfilled OR rejected Promise wins.
+// Example 1
+let slowRequest = new Promise(function (resolve) {
+    setTimeout(function () {
+        resolve("Slow Request Completed");
+    }, 2000);
+});
+let fastRequest = new Promise(function (resolve) {
+    setTimeout(function () {
+        resolve("Fast Request Completed");
+    }, 1000);
+
+});
+Promise.race([
+    slowRequest,
+    fastRequest
+])
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Example 2 - QA Example
+let chromeTest = new Promise(function (resolve) {
+    setTimeout(function () {
+        resolve("Chrome Test Passed");
+    }, 2000);
+
+});
+let firefoxTest = new Promise(function (resolve, reject) {
+    setTimeout(function () {
+        reject("Firefox Test Failed");
+    }, 1000);
+});
+Promise.race([
+    chromeTest,
+    firefoxTest
+])
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log("Test Error: " + error);
+    });
+
+// ============================================================
+// Topic: Promise.any()
+// Purpose: Returns the FIRST Promise that fulfills successfully.
+// Key Point: Rejected Promises are ignored.
+// If ALL Promises reject, Promise.any() rejects.
+// Example 1
+let primaryServer = Promise.reject("Primary Server Failed");
+let backupServer = Promise.resolve("Backup Server Connected");
+Promise.any([
+    primaryServer,
+    backupServer
+])
+    .then(function (result) {
+        console.log(result);
+    });
+
+// Example 2 - QA Example
+let apiOne = new Promise(function (resolve, reject) {
+    setTimeout(function () {
+        reject("API One Failed");
+    }, 1000);
+
+});
+let apiTwo = new Promise(function (resolve) {
+    setTimeout(function () {
+        resolve("API Two Passed");
+    }, 2000);
+
+});
+let apiThree = new Promise(function (resolve) {
+    setTimeout(function () {
+        resolve("API Three Passed");
+    }, 3000);
+
+});
+Promise.any([
+    apiOne,
+    apiTwo,
+    apiThree
+])
+    .then(function (result) {
+        console.log("First Successful API: " + result);
+    })
+    .catch(function (error) {
+        console.log("All APIs Failed");
+    });
+
+// Promise.any() - All Promises Rejected
+let databaseAPI = Promise.reject("Database Failed");
+let backupDatabaseAPI = Promise.reject("Backup Database Failed");
+Promise.any([
+    databaseAPI,
+    backupDatabaseAPI
+])
+    .then(function (result) {
+        console.log(result);
+    })
+    .catch(function (error) {
+        console.log("All Database Connections Failed");
+        console.log(error.errors);
+    });
+
+// Promise.all()→ // → ALL Promises must fulfill. // → One rejection causes rejection.  // all()→ ALL must succeed
+// Promise.allSettled() → // → Waits for ALL Promises.// → Gives fulfilled and rejected results. // allSettled() → ALL results
+// Promise.race() → // → FIRST Promise to settle wins.// → Fulfilled OR rejected.  // race()→ FIRST to finish
+// Promise.any() →// → FIRST successful Promise wins.// → Rejections are ignored. // → Rejects only when ALL Promises reject.  // any()→ FIRST to succeed
