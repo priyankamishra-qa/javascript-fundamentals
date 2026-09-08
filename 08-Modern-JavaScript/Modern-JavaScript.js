@@ -1327,3 +1327,197 @@ Promise.any([
 // Promise.allSettled() → // → Waits for ALL Promises.// → Gives fulfilled and rejected results. // allSettled() → ALL results
 // Promise.race() → // → FIRST Promise to settle wins.// → Fulfilled OR rejected.  // race()→ FIRST to finish
 // Promise.any() →// → FIRST successful Promise wins.// → Rejections are ignored. // → Rejects only when ALL Promises reject.  // any()→ FIRST to succeed
+
+function apiCheck() {
+    return Promise.resolve("API Healthy");
+}
+function databaseCheck() {
+    return Promise.resolve("Database Healthy");
+}
+function uiCheck() {
+    return Promise.resolve("UI Healthy");
+}
+async function runHealthChecks(){
+    let results = await Promise.all([
+        apiCheck(),
+        databaseCheck(),
+        uiCheck()
+    ]);
+    console.log(results);
+}
+runHealthChecks();
+
+//Use Promise.all()
+//Use await
+//Run all three browser tests
+//Use destructuring
+//Print them separately: //Chrome Passed //Firefox Passed //Edge Passed
+function chromeTests() {
+    return Promise.resolve("Chrome Passed");
+}
+function firefoxTests() {
+    return Promise.resolve("Firefox Passed");
+}
+function edgeTests() {
+    return Promise.resolve("Edge Passed");
+}
+async function browserTests() {
+    let [chromeTestResult, firefoxTestResult, edgeTestResult] = await Promise.all([
+        chromeTests(),
+        firefoxTests(),
+        edgeTests()
+    ]);
+    console.log(chromeTestResult);
+    console.log(firefoxTestResult);
+    console.log(edgeTestResult);
+}
+browserTests();
+
+//Use try...catch
+//Use await Promise.all()
+//Use destructuring
+//Run all three browser tests
+//If everything succeeds, print: Chrome Passed, Firefox Passed, Edge Passed
+//If any test fails, print: Browser Test Error: Firefox Test Failed
+
+function chromeTest1() {
+    return Promise.resolve("Chrome Passed");
+}
+function firefoxTest1() {
+    return Promise.reject("Firefox Test Failed");
+}
+function edgeTest1() {
+    return Promise.resolve("Edge Passed");
+}
+async function browserTest1(){
+    try {
+        let [chromeTestResult, firefoxTestResult, edgeTestResult] = await Promise.all([
+            chromeTest1(),
+            firefoxTest1(),
+            edgeTest1()
+        ]);
+        console.log(chromeTestResult);
+        console.log(firefoxTestResult);
+        console.log(edgeTestResult);
+    } catch (error) {
+        console.log("Browser Test Error:" + error);
+    }
+}
+
+//Use try...catch
+//Use await Promise.all()
+//Use destructuring
+//Print each result if all checks pass
+//In catch, print:Quality Check Error: Database Connection Failed
+//Add a finally that prints: Quality Checks Finished
+function apiCheck() {
+    return Promise.resolve("API Passed");
+}
+function databaseCheck() {
+    return Promise.reject("Database Connection Failed");
+}
+function uiCheck() {
+    return Promise.resolve("UI Passed");
+}
+async function runQualityChecks() {
+    try {
+        let [apiCheckTest, databaseCheckTest, uiCheckTest] = await Promise.all([
+            apiCheck(),
+            databaseCheck(),
+            uiCheck()
+        ]);
+        console.log(apiCheckTest);
+        console.log(databaseCheckTest);
+        console.log(uiCheckTest);
+    } catch (error) {
+        console.log("Quality Check Error:" + error);
+    } finally {
+        console.log("Quality Checks Finished");
+    }
+}
+runQualityChecks();
+
+// ============================================================
+// SEQUENTIAL VS PARALLEL ASYNC OPERATIONS
+// 1. SEQUENTIAL EXECUTION
+// Operations run one after another.
+// The next operation starts only after the previous one finishes.
+function login() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Login Successful"), 2000);
+    });
+}
+function getProfile() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Profile Loaded"), 1000);
+    });
+}
+async function sequentialFlow() {
+    let loginResult = await login();
+    console.log(loginResult);
+
+    let profileResult = await getProfile();
+    console.log(profileResult);
+}
+sequentialFlow();
+// Total execution time ≈ 3 seconds
+// Login → 2 seconds
+// Profile → 1 second
+
+// -------------------------
+// 2. PARALLEL EXECUTION
+// Independent operations can run at the same time.
+// Promise.all() waits for all operations to complete.
+function apiCheck() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("API Passed"), 2000);
+    });
+}
+function databaseCheck() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Database Passed"), 3000);
+    });
+}
+function uiCheck() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("UI Passed"), 1000);
+    });
+}
+async function parallelChecks() {
+    let [apiResult, databaseResult, uiResult] = await Promise.all([
+        apiCheck(),
+        databaseCheck(),
+        uiCheck()
+    ]);
+
+    console.log(apiResult);
+    console.log(databaseResult);
+    console.log(uiResult);
+}
+parallelChecks();
+
+// Total execution time ≈ 3 seconds
+// API → 2 seconds
+// Database → 3 seconds
+// UI → 1 second
+
+// 3. WHEN TO USE SEQUENTIAL
+// Use sequential execution when operations depend on each other.
+// Example:
+// Login → Get Profile → Update Profile
+// The next operation needs the previous operation to finish.
+
+// 4. WHEN TO USE PARALLEL
+// Use parallel execution when operations are independent.
+// Example:
+// API Health Check
+// Database Health Check
+// UI Health Check
+// None depends on another, so they can run together.
+
+// 5. IMPORTANT QA RULE
+// Dependent operations → Sequential
+// Independent operations → Parallel
+// "Does the next operation need the previous operation to finish?"
+// YES → Sequential
+// NO  → Parallel
