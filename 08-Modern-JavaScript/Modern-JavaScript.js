@@ -1496,28 +1496,143 @@ async function parallelChecks() {
 }
 parallelChecks();
 
-// Total execution time ≈ 3 seconds
-// API → 2 seconds
-// Database → 3 seconds
-// UI → 1 second
-
-// 3. WHEN TO USE SEQUENTIAL
-// Use sequential execution when operations depend on each other.
-// Example:
-// Login → Get Profile → Update Profile
-// The next operation needs the previous operation to finish.
-
-// 4. WHEN TO USE PARALLEL
-// Use parallel execution when operations are independent.
-// Example:
-// API Health Check
-// Database Health Check
-// UI Health Check
-// None depends on another, so they can run together.
-
 // 5. IMPORTANT QA RULE
 // Dependent operations → Sequential
 // Independent operations → Parallel
 // "Does the next operation need the previous operation to finish?"
 // YES → Sequential
 // NO  → Parallel
+
+// ============================================================
+// ASYNC/AWAIT + PROMISE COMBINATORS
+// 1. PROMISE.ALL()
+// Use when ALL independent operations must succeed.
+// If one Promise rejects, Promise.all() rejects.
+function loadOrders() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Orders Loaded"), 2000);
+    });
+}
+function loadInventory() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Inventory Loaded"), 1000);
+    });
+}
+function loadNotifications() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Notifications Loaded"), 3000);
+    });
+}
+async function loadDashboard() {
+
+    let results = await Promise.all([
+        loadOrders(),
+        loadInventory(),
+        loadNotifications()
+    ]);
+    console.log(results);
+}
+loadDashboard();
+
+// ============================================================
+// 2. PROMISE.ALLSETTLED()
+// Use when we need the result of EVERY operation,
+// including successful and failed operations.
+function generateSalesReport() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Sales Report Generated"), 2000);
+    });
+}
+function generateStockReport() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => reject("Stock Report Failed"), 1000);
+    });
+}
+function generateUserReport() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("User Report Generated"), 3000);
+    });
+}
+async function generateReports() {
+
+    let results = await Promise.allSettled([
+        generateSalesReport(),
+        generateStockReport(),
+        generateUserReport()
+    ]);
+
+    console.log(results);
+}
+generateReports();
+
+// ============================================================
+// 3. PROMISE.RACE()
+// Use when the FIRST Promise to settle should win.
+// Success OR failure can win.
+function notificationService() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Notification Service Responded"), 3000);
+    });
+}
+function emailService() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Email Service Responded"), 1000);
+    });
+}
+async function checkFastestService() {
+
+    let result = await Promise.race([
+        notificationService(),
+        emailService()
+    ]);
+
+    console.log(result);
+}
+checkFastestService();
+
+// ============================================================
+// 4. PROMISE.ANY()
+// Use when we need the FIRST SUCCESSFUL Promise.
+// Rejected Promises are ignored while waiting.
+function warehouseA() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => reject("Warehouse A Unavailable"), 1000);
+    });
+}
+function warehouseB() {
+    return new Promise(resolve => {
+        setTimeout(() => resolve("Warehouse B Available"), 3000);
+    });
+}
+function warehouseC() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => reject("Warehouse C Unavailable"), 2000);
+    });
+}
+async function findAvailableWarehouse() {
+
+    try {
+
+        let result = await Promise.any([
+            warehouseA(),
+            warehouseB(),
+            warehouseC()
+        ]);
+
+        console.log(result);
+    } catch (error) {
+        console.log("All Warehouses Failed: " + error);
+    }
+}
+findAvailableWarehouse();
+
+// 5. QUICK REVISION
+
+// Promise.all()
+// → ALL must succeed.
+// Promise.allSettled()
+// → Get EVERY result, pass or fail.
+// Promise.race()
+// → FIRST Promise to settle wins.
+// Promise.any()
+// → FIRST SUCCESSFUL Promise wins.
