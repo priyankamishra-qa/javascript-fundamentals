@@ -144,10 +144,10 @@ class Bug {
         this.status = newStatus;
     }
 }
-let bug1 = new Bug("Login button not working", "Open");
-console.log(bug1.status);
-bug1.updateStatus("Fixed");
-console.log(bug1.status);
+let bug10 = new Bug("Login button not working", "Open");
+console.log(bug10.status);
+bug10.updateStatus("Fixed");
+console.log(bug10.status);
 // ============================================================
 // INHERITANCE
 // 13. extends - Basic Inheritance
@@ -243,12 +243,12 @@ class TestCase {
     }
 }
 
-let test1 = new TestCase(
+let test1x = new TestCase(
     "Login Test",
     "High",
     "Passed"
 );
-test1.showDetails();
+test1x.showDetails();
 // ------------------------------------------------------------
 // 19. AutomationTest - Inheritance
 class AutomationTest extends TestCase {
@@ -292,3 +292,135 @@ let automatedTest1 = new AutomatedTestCase(
     "Playwright"
 );
 automatedTest1.showDetails();
+
+// Getters and Setters
+// 1. Getter -A getter is used to read/access a property value.// It is accessed like a normal property, without ().
+class TestCaseX {
+    constructor(name, status) {
+        this.name = name;
+        this.status = status;
+    }
+
+    get testName() {
+        return this.name;
+    }
+}
+let test1 = new TestCaseX("Login Test", "Passed");
+console.log(test1.testName);
+
+// 2. Getter - QA Example
+class TestCaseResult {
+    constructor(name, status) {
+        this.name = name;
+        this.status = status;
+    }
+
+    get result() {
+        return this.status;
+    }
+}
+let loginTest = new TestCaseResult("Login Test", "Passed");
+console.log(loginTest.result);
+
+// 3. Setter - A setter is used to update/change a property value.// It is also used like a normal property, without ().
+class TestCaseStatus {
+    constructor(name, status) {
+        this.name = name;
+        this.status = status;
+    }
+
+    set updateStatus(newStatus) {
+        this.status = newStatus;
+    }
+}
+let test2 = new TestCaseStatus("Payment Test", "Failed");
+test2.updateStatus = "Passed";
+console.log(test2.status);
+
+// 4. Setter with Validation -A setter can validate data before updating the property.
+class ValidatedTestCase {
+    constructor(name, status) {
+        this.name = name;
+        this.status = status;
+    }
+    set updateStatus(newStatus) {
+        if (
+            newStatus === "Passed" ||
+            newStatus === "Failed" ||
+            newStatus === "Blocked"
+        ) {
+            this.status = newStatus;
+        } else {
+            console.log("Invalid status");
+        }
+    }
+}
+let test3 = new ValidatedTestCase("Checkout Test", "Not Executed");
+test3.updateStatus = "Passed";
+console.log(test3.status);
+test3.updateStatus = "Completed";
+
+// 5. Getter + Setter Together
+class TestCaseStatusManager {
+    constructor(name, status) {
+        this.name = name;
+        this.status = status;
+    }
+
+    get testStatus() {
+        return this.status;
+    }
+
+    set testStatus(newStatus) {
+        if (
+            newStatus === "Passed" ||
+            newStatus === "Failed" ||
+            newStatus === "Blocked"
+        ) {
+            this.status = newStatus;
+        } else {
+            console.log("Invalid test status");
+        }
+    }
+}
+let test4 = new TestCaseStatusManager("Login Test", "Not Executed");
+console.log(test4.testStatus);
+test4.testStatus = "Passed";
+console.log(test4.testStatus);
+test4.testStatus = "Completed";
+console.log(test4.testStatus);
+
+// 6. QA Example - Bug Getter and Setter
+class BugX {
+    constructor(title, status) {
+        this.title = title;
+        this.status = status;
+    }
+
+    get bugStatus() {
+        return this.status;
+    }
+
+    set bugStatus(newStatus) {
+        if (
+            newStatus === "Open" ||
+            newStatus === "Fixed" ||
+            newStatus === "Closed"
+        ) {
+            this.status = newStatus;
+        } else {
+            console.log("Invalid bug status");
+        }
+    }
+}
+let bug1 = new BugX("Login button not working", "Open");
+console.log(bug1.bugStatus);
+bug1.bugStatus = "Fixed";
+console.log(bug1.bugStatus);
+
+// Key Points:
+// Getter → reads a value
+// Setter → updates a value
+// get → accessed like a property
+// set → assigned like a property
+// Setter can validate data before updating it
