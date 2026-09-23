@@ -1,5 +1,6 @@
 // PUSH() POP() SHIFT() UNSHIFT() INCLUDE() INDEXOF() SLICE() SPLICE() CONCATE() JOIN() REVERSE() SORT()
-
+// FIND() FILTER() FOR EACH() MAP() SOME() REDUCE() EVERY()
+//touppercase() tolowercase() startswith() endswith() LENGHT() SPLIT() TRIM() REPLACE()
 // ==============================
 // push()
 // Purpose: Adds one or more elements to the end of an array.
@@ -7,9 +8,9 @@
 // Changes Original Array? Yes
 // Returns: New length of the array.
 //Program 1 - Add Blue
-let colors = ["Red", "Green"];
-colors.push("Blue");
-console.log(colors)
+let colorsX = ["Red", "Green"];
+colorsX.push("Blue");
+console.log(colorsX)
 //Challenge-1
 let fruits1 = ["Apple"];
 fruits1.push("Banana");
@@ -112,7 +113,7 @@ arr4.splice(1, 1, "Lion");
 console.log(arr4);
 
 // ==============================
-// concat()
+// concate()
 // Purpose: Combines two or more arrays.
 // Syntax : array.concat(array2);
 // Changes Original Array? No
@@ -126,8 +127,8 @@ console.log(food);
 let array1 = [1, 2];
 let array2 = [3, 4];
 let array3 = [5, 6];
-let result = array1.concat(array2, array3);
-console.log(result);
+let resultX = array1.concat(array2, array3);
+console.log(resultX);
 
 // ==============================
 // join()
@@ -191,9 +192,9 @@ console.log(descending);
 // Changes Original Array? No
 // Returns: true or false (Boolean).
 //Program-1 Check whether Firefox and safari exist ?
-let browsers = ["Chrome", "Firefox", "Edge"];
-console.log(browsers.includes("Firefox"));
-console.log(browsers.includes("Safari"));
+let browsersA = ["Chrome", "Firefox", "Edge"];
+console.log(browsersA.includes("Firefox"));
+console.log(browsersA.includes("Safari"));
 //Program-2
 let colour = ["Red", "Green", "Blue"];
 console.log(colour.includes("Green"));
@@ -213,10 +214,10 @@ if (fruiti.includes("Banana")) {
 // Changes Original Array? No
 // Returns: Index of the element, or -1 if not found.
 //Program-1 Print the index of python , javascript , c++
-let languages = ["Java", "JavaScript", "Python", "TypeScript"];
-console.log(languages.indexOf("Python"));
-console.log(languages.indexOf("JavaScript"));
-console.log(languages.indexOf("C++"));
+let languages1 = ["Java", "JavaScript", "Python", "TypeScript"];
+console.log(languages1.indexOf("Python"));
+console.log(languages1.indexOf("JavaScript"));
+console.log(languages1.indexOf("C++"));
 //Program 2
 let colours = ["Red", "Green", "Blue"];
 console.log(colours.indexOf("Blue"));
@@ -249,7 +250,7 @@ console.log(output);
 // Returns: A new array containing all matching elements.
 // Example 1
 let count = [10, 20, 30, 40];
-let results = counts.filter((count) => count > 25);
+let results = count.filter((count) => count > 25);
 console.log(results);
 // Example 2
 let Num = [1,2,3,4,5,6,7,8];
@@ -299,12 +300,12 @@ games.forEach(function(game,index){
 // Changes Original Array? No
 // Returns: A new array with modified elements.
 // Example 1
-let temperatures = [18, 24, 30];
-let updated = temperatures.map((temp) => temp + 2);
+let temperaturesT = [18, 24, 30];
+let updated = temperaturesT.map((temp) => temp + 2);
 console.log(updated);
 // Problem 1 :Create a new array by adding 10 to every mark.
-let marks = [68, 74, 89];
-let addon = marks.map(function(mark){
+let markX = [68, 74, 89];
+let addon = markX.map(function(mark){
     return mark + 10;
 });
 console.log(addon);
@@ -350,14 +351,14 @@ let exists = countries.some(function(country){
 });
 console.log(exists);
 //Problem 2 :Check any rating is greater than 4.5 ?
-let ratings = [3.8, 4.2, 4.6, 3.9];
-let greater = ratings.some(function(rating){
+let ratingC = [3.8, 4.2, 4.6, 3.9];
+let greater = ratingC.some(function(rating){
     return rating > 4.5;
 });
 console.log(greater);
 //Problem 3 :Check if Safari Exist ?
-let browsers = ["Chrome","Firefox","Edge"];
-let hasSafari = browsers.some(function(browser){
+let browserB = ["Chrome","Firefox","Edge"];
+let hasSafari = browserB.some(function(browser){
     return browser === "Safari";
 });
 console.log(hasSafari);
@@ -381,8 +382,8 @@ console.log(available);
 // Changes Original Array? No
 // Returns: true or false.
 // Example 1
-let ages = [22, 28, 31, 25];
-let allAdults = ages.every((age) => age >= 18);
+let ageX = [22, 28, 31, 25];
+let allAdults = ageX.every((age) => age >= 18);
 console.log(allAdults);
 // Problem 1 : Check whether all temperatures are above 25.
 let temperatures = [28, 31, 35, 30];
@@ -423,8 +424,8 @@ console.log(letter);
 // Returns: A single value (number, string, object, etc.).
 // Example 1
 let expenses = [500, 1200, 800];
-let total = expenses.reduce((accumulator, expense) => accumulator + expense, 0);
-console.log(total);
+let totalX = expenses.reduce((accumulator, expense) => accumulator + expense, 0);
+console.log(totalX);
 //Problem 1:find total mark ?
 let marks = [85, 90, 78, 92];
 let total = marks.reduce(function(accumulator,mark){
@@ -455,3 +456,83 @@ let totalNum = names.reduce(function(accumulator,name){
     return accumulator + name.length;
 },0);
 console.log(totalNum);
+
+// ==============================
+// toUpperCase()
+// Purpose: Converts all letters in a string to uppercase.
+// Syntax : string.toUpperCase()
+// Changes Original String? No
+// Returns: New string in uppercase.
+// Program 1 - Convert API Status
+let apiResult = "passed";
+console.log(apiResult.toUpperCase());
+
+// ==============================
+// toLowerCase()
+// Purpose: Converts all letters in a string to lowercase.
+// Syntax : string.toLowerCase()
+// Changes Original String? No
+// Returns: New string in lowercase.
+// Program 1 - Convert Test Result
+let testResult = "FAILED";
+console.log(testResult.toLowerCase());
+
+// ==============================
+// startsWith()
+// Purpose: Checks whether a string starts with specified text.
+// Syntax : string.startsWith(searchValue)
+// Changes Original String? No
+// Returns: true or false.
+// Program 1 - Check API URL
+let apiEndpoint = "https://qa-api.example.com/users";
+console.log(apiEndpoint.startsWith("https"));
+
+// ==============================
+// endsWith()
+// Purpose: Checks whether a string ends with specified text.
+// Syntax : string.endsWith(searchValue)
+// Changes Original String? No
+// Returns: true or false.
+// Program 1 - Check File Name
+let testReport = "regression-report.json";
+console.log(testReport.endsWith(".json"));
+
+// ==============================
+// length
+// Purpose: Returns the number of characters in a string.
+// Syntax : string.length
+// Changes Original String? No
+// Returns: Number of characters.
+// Program 1 - Count Characters
+let defectTitle = "Login button not working";
+console.log(defectTitle.length);
+
+// ==============================
+// trim()
+// Purpose: Removes spaces from the beginning and end of a string.
+// Syntax : string.trim()
+// Changes Original String? No
+// Returns: New string without leading and trailing spaces.
+// Program 1 - Clean User Input
+let userInput = "   Priyanka QA   ";
+console.log(userInput.trim());
+
+// ==============================
+// replace()
+// Purpose: Replaces the first matching text in a string.
+// Syntax : string.replace(searchValue, newValue)
+// Changes Original String? No
+// Returns: New modified string.
+// Program 1 - Update Test Status
+let executionStatus = "Test failed";
+console.log(executionStatus.replace("failed", "passed"));
+
+// ==============================
+// split()
+// Purpose: Splits a string into an array using a separator.
+// Syntax : string.split(separator)
+// Changes Original String? No
+// Returns: New array.
+// Program 1 - Split Test Types
+let testingTypes = "Manual,API,Automation";
+console.log(testingTypes.split(","));

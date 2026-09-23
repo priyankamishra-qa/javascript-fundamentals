@@ -15,7 +15,7 @@ let book = {
 };
 
 //Example:2-Create an object for a mobile phone.  //Store - brand / model / price
-let mobile = {
+let mobileX = {
     brand : "Iphone",
     model : "14 plus",
     price : 50000
@@ -33,7 +33,7 @@ let movie = {
     rating : 4.9
 }; 
 //Example:5-Create an object for a laptop.  //Store - brand / ram / processor / Storage
-let laptop = {
+let laptop1 = {
     brand : "Dell",
     ram : "16GB",
     processor : "i3 13th GEN",
@@ -47,7 +47,7 @@ let laptop = {
 // Changes Original Object? No (when accessing)
 // Returns: The value of the specified property.
 // Example 1
-let employee = {
+let employeeA = {
     name: "Rahul",
     role: "QA Engineer",
     experience: 3
@@ -75,7 +75,7 @@ console.log(product["price"]);
 // Bracket Notation:
 // - Use when the property name is stored in a variable or contains spaces/special characters.
 //Combine Example 
-let student = {
+let student1 = {
     name: "Priya",
     city: "Bangalore"
 };
@@ -385,7 +385,7 @@ console.log(car);
 // 2. Use bracket notation ([]) when the property name is stored in a variable.
 // 3. Mainly used with objects.
 // Example:1
-let student = {
+let studentA = {
     name: "Riya",
     course: "QA",
     experience: 2
@@ -448,7 +448,7 @@ for (let fruit of fruits) {
 // Changes Original Object? No
 // Returns: Array of keys.
 // Example 1
-let user = {
+let userX = {
     name: "Priya",
     role: "QA"
 };
@@ -461,7 +461,7 @@ console.log(Object.keys(user));
 // Changes Original Object? No
 // Returns: Array of values.
 // Example 1
-let user = {
+let useYr = {
     name: "Priya",
     role: "QA"
 };
